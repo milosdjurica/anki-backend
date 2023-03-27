@@ -16,6 +16,8 @@ model User {
   updatedAt DateTime @updatedAt
 
   username     String  @unique
+  firstName    String
+  lastName     String
   hashPassword String
   hashedRt     String?
 
