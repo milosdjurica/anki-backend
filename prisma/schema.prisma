@@ -11,11 +11,48 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
+  userId    Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   username     String  @unique
   hashPassword String
   hashedRt     String?
+
+  decks Deck[]
+
+  @@map("users")
+}
+
+model Deck {
+  deckId    Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  name        String
+  description String?
+  avgRating   Float
+  tags        String[]
+
+  user   User   @relation(fields: [userId], references: [userId])
+  userId Int
+  cards  Card[]
+
+  @@map("decks")
+}
+
+model Card {
+  cardId    Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  question  String
+  answer    String
+  avgRating Float
+  ratings   Float[]
+
+  deck   Deck @relation(fields: [deckId], references: [deckId])
+  deckId Int
+
+  @@map("cards")
 }
