@@ -7,22 +7,22 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('local/register')
-  registerLocal(@Body() dto: RegisterDto) {
-    this.authService.registerLocal(dto);
+  registerLocal(@Body() registerDto: RegisterDto) {
+    return this.authService.registerLocal(registerDto);
   }
 
   @Post('local/logIn')
-  logInLocal(@Body() dto: LogInDto) {
-    this.authService.logInLocal(dto);
+  logInLocal(@Body() logInDto: LogInDto) {
+    return this.authService.logInLocal(logInDto);
   }
 
   @Post('logOut')
   logOut() {
-    this.authService.logOut();
+    return this.authService.logOut();
   }
 
   @Post('refresh')
   refreshTokens() {
-    this.authService.refreshTokens();
+    return this.authService.refreshTokens();
   }
 }
