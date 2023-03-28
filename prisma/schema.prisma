@@ -31,9 +31,10 @@ model Deck {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  // !Not unique because maybe user wants to have a deck - Lesson1 for different tags
   name        String
   description String?
-  avgRating   Float
+  avgRating   Float    @default(0)
   tags        String[]
 
   user   User   @relation(fields: [userId], references: [userId])
@@ -50,7 +51,7 @@ model Card {
 
   question  String
   answer    String
-  avgRating Float
+  avgRating Float   @default(0)
   ratings   Float[]
 
   deck   Deck @relation(fields: [deckId], references: [deckId])
