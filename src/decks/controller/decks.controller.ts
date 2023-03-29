@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { GetCurrentUserId } from '@Src/common/decorators';
 import { CreateDeckDto, UpdateDeckDto } from '../dto';
@@ -26,5 +27,30 @@ export class DecksController {
   @Get()
   findDecksByUserId(@GetCurrentUserId() userId: number) {
     return this.decksService.findDecksByUserId(userId);
+  }
+
+  @Get(':deckId')
+  findOneDeck(
+    @Param('deckId', ParseIntPipe) deckId: number,
+    @GetCurrentUserId() userId: number,
+  ) {
+    return this.decksService.findOneDeck(deckId, userId);
+  }
+
+  @Patch(':deckId')
+  updateDeck(
+    @Param('deckId', ParseIntPipe) deckId: number,
+    @GetCurrentUserId() userId: number,
+    @Body() updateDeckDto: UpdateDeckDto,
+  ) {
+    return this.decksService.updateDeck(deckId, userId, updateDeckDto);
+  }
+
+  @Delete(':deckId')
+  deleteDeck(
+    @Param('deckId', ParseIntPipe) deckId: number,
+    @GetCurrentUserId() userId: number,
+  ) {
+    return this.decksService.deleteDeck(deckId, userId);
   }
 }
