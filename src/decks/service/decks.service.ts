@@ -113,4 +113,25 @@ export class DecksService {
 
     return deletedDeck;
   }
+
+  // ! PRACTICE
+  async getCardsForPractice(deckId: number, userId: number) {
+    const deck = await this.prisma.deck.findUnique({
+      where: {
+        deckId: deckId,
+      },
+      include: {
+        cards: true,
+      },
+    });
+
+    if (!deck) throw new NotFoundException(`Deck with id ${deckId} not found`);
+
+    if (deck.userId !== userId)
+      throw new UnauthorizedException(
+        'You are not authorized to access this deck',
+      );
+
+    return deck.cards;
+  }
 }

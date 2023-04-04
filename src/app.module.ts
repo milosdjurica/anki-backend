@@ -6,9 +6,10 @@ import { AuthModule } from './auth/auth.module';
 import { AtGuard } from './common/guards';
 import { PrismaModule } from './prisma/prisma.module';
 import { DecksModule } from './decks/decks.module';
+import { CardsModule } from './cards/cards.module';
 
 @Module({
-  imports: [AuthModule, PrismaModule, DecksModule],
+  imports: [AuthModule, PrismaModule, DecksModule, CardsModule],
   controllers: [AppController],
   providers: [
     AppService,

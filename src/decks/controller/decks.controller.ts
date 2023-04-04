@@ -53,4 +53,12 @@ export class DecksController {
   ) {
     return this.decksService.deleteDeck(deckId, userId);
   }
+
+  @Get('practice/:deckId')
+  getCardsForPractice(
+    @Param('deckId', ParseIntPipe) deckId: number,
+    @GetCurrentUserId() userId: number,
+  ) {
+    return this.decksService.getCardsForPractice(deckId, userId);
+  }
 }
