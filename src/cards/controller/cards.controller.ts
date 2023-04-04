@@ -6,36 +6,58 @@ import {
   Patch,
   Param,
   Delete,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { CardsService } from '../service/cards.service';
 import { CreateCardDto } from '../dto/create-card.dto';
 import { UpdateCardDto } from '../dto/update-card.dto';
-@Controller('cards')
+import { GetCurrentUserId } from '@Src/common/decorators';
+@Controller('cards/:deckId')
 export class CardsController {
   constructor(private readonly cardsService: CardsService) {}
 
   @Post()
-  create(@Body() createCardDto: CreateCardDto) {
-    return this.cardsService.create(createCardDto);
+  create(
+    @GetCurrentUserId() userId: number,
+    @Param('deckId', ParseIntPipe) deckId: number,
+    @Body() createCardDto: CreateCardDto,
+  ) {
+    return this.cardsService.create(userId, deckId, createCardDto);
   }
 
   @Get()
-  findAll() {
-    return this.cardsService.findAll();
+  findAll(
+    @GetCurrentUserId() userId: number,
+    @Param('deckId', ParseIntPipe) deckId: number,
+  ) {
+    return this.cardsService.findAll(userId, deckId);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.cardsService.findOne(+id);
+  @Get(':cardId')
+  findOne(
+    @GetCurrentUserId() userId: number,
+    @Param('deckId', ParseIntPipe) deckId: number,
+    @Param('cardId', ParseIntPipe) cardId: number,
+  ) {
+    return this.cardsService.findOne(userId, deckId, cardId);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCardDto: UpdateCardDto) {
-    return this.cardsService.update(+id, updateCardDto);
+  @Patch(':cardId')
+  update(
+    @GetCurrentUserId() userId: number,
+    @Param('deckId', ParseIntPipe) deckId: number,
+    @Param('cardId', ParseIntPipe) cardId: number,
+    @Body() updateCardDto: UpdateCardDto,
+  ) {
+    return this.cardsService.update(userId, deckId, cardId, updateCardDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.cardsService.remove(+id);
+  @Delete(':cardId')
+  remove(
+    @GetCurrentUserId() userId: number,
+    @Param('deckId', ParseIntPipe) deckId: number,
+    @Param('cardId', ParseIntPipe) cardId: number,
+  ) {
+    return this.cardsService.remove(userId, deckId, cardId);
   }
 }

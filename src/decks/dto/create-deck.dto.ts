@@ -1,4 +1,10 @@
-import { IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
+import {
+  IsArray,
+  IsOptional,
+  IsString,
+  MaxLength,
+  MinLength,
+} from 'class-validator';
 
 export class CreateDeckDto {
   @IsString()
@@ -11,4 +17,7 @@ export class CreateDeckDto {
   @MinLength(0)
   @MaxLength(80)
   description?: string;
+
+  // @IsArray()
+  // tags?: String[];
 }
