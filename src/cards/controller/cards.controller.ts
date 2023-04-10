@@ -9,9 +9,8 @@ import {
   ParseIntPipe,
 } from '@nestjs/common';
 import { CardsService } from '../service/cards.service';
-import { CreateCardDto } from '../dto/create-card.dto';
-import { UpdateCardDto } from '../dto/update-card.dto';
 import { GetCurrentUserId } from '@Src/common/decorators';
+import { CreateCardDto, UpdateCardDto } from '../dto';
 @Controller('cards/:deckId')
 export class CardsController {
   constructor(private readonly cardsService: CardsService) {}
@@ -30,7 +29,7 @@ export class CardsController {
     @GetCurrentUserId() userId: number,
     @Param('deckId', ParseIntPipe) deckId: number,
   ) {
-    return this.cardsService.findAll(userId, deckId);
+    return this.cardsService.findAllCardsFromDeck(userId, deckId);
   }
 
   @Get(':cardId')
