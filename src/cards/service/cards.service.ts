@@ -54,17 +54,36 @@ export class CardsService {
       : `Could not find card with cardId ${cardId} in deck with deckId ${deckId} .`;
   }
 
-  update(
+  async update(
     userId: number,
     deckId: number,
     cardId: number,
     updateCardDto: UpdateCardDto,
   ) {
-    return `This action updates a #${cardId} card`;
+    const cards = await this.findAllCardsFromDeck(userId, deckId);
+    const card = cards.find((card) => card.cardId === cardId);
+
+    if (!card)
+      return `Could not find card with cardId ${cardId} in deck with deckId ${deckId} .`;
+
+    // !Add check for rating, manage average, and add rating in array of ratings
+    // !Also maybe should limit ratings to last 20 only or even less
+
+    const updatedCard = await this.prisma.card.update({
+      where: { cardId },
+      data: { ...updateCardDto },
+    });
+
+    return updatedCard;
   }
 
-  remove(userId: number, deckId: number, cardId: number) {
-    return `This action removes a #${cardId} card`;
+  async remove(userId: number, deckId: number, cardId: number) {
+    const cards = await this.findAllCardsFromDeck(userId, deckId);
+    const card = cards.find((card) => card.cardId === cardId);
+    if (!card)
+      return `Could not find card with cardId ${cardId} in deck with deckId ${deckId} .`;
+
+    return this.prisma.card.delete({ where: { cardId } });
   }
 
   async validateDeck(userId: number, deckId: number) {
